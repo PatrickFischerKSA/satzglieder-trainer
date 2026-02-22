@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lehrer Dashboard</title>
+</head>
+<body>
+<h1>Klassenübersicht</h1>
+<div id="stats"></div>
+<script>
+function update(){
+let total=0;
+let entries=[];
+for(let key in localStorage){
+if(key.startsWith("live_")){
+entries.push(JSON.parse(localStorage[key]));
+}
+}
+entries.sort((a,b)=>b.time-a.time);
+entries.slice(0,10).forEach(e=>{total+=e.score;});
+document.getElementById("stats").innerHTML=
+"Letzte Aktivitäten: "+entries.length+"<br>Gesamtpunkte: "+total;
+}
+setInterval(update,2000);
+</script>
+</body>
+</html>
