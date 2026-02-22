@@ -1,24 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Satzglieder Trainer V2</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Satzglieder-Trainer</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <main class="page">
+    <header class="hero">
+      <p class="kicker">Deutsch · Satzglieder</p>
+      <h1>Satzglieder-Trainer mit Sofortkorrektur</h1>
+      <p class="lead">
+        Ordne jedes markierte Satzglied direkt einer Kategorie zu: <strong>S</strong>, <strong>P</strong>,
+        <strong>AO</strong>, <strong>DO</strong>, <strong>GO</strong>, <strong>k</strong>.
+      </p>
+      <div class="meta-row">
+        <div class="meta-card"><span>Level</span><strong id="levelBadge">1</strong></div>
+        <div class="meta-card"><span>Serie</span><strong id="streakBadge">0</strong></div>
+        <div class="meta-card"><span>Modus</span><strong id="modeBadge">Normal</strong></div>
+      </div>
+    </header>
 
-<h1>Satzglieder Trainer – PRO VERSION</h1>
+    <section class="card intro">
+      <h2>Legende</h2>
+      <p>
+        <strong>S</strong> = Subjekt (Nominativ),
+        <strong>P</strong> = Prädikat (Verbteil),
+        <strong>AO</strong> = Akkusativobjekt,
+        <strong>DO</strong> = Dativobjekt,
+        <strong>GO</strong> = Genitivobjekt,
+        <strong>k</strong> = keines davon.
+      </p>
+    </section>
 
-<div id="status"></div>
-<div id="exercise"></div>
+    <section class="card task">
+      <div class="task-head">
+        <h2>Übungssatz</h2>
+        <button id="newExerciseBtn" class="ghost" type="button">Neuer Satz</button>
+      </div>
+      <p id="sentenceText" class="sentence"></p>
+      <p id="statusHint" class="status-hint">Wähle für jedes Satzglied eine Kategorie.</p>
 
-<button onclick="check()">Überprüfen</button>
-<button onclick="nextExercise()">Neuer Satz</button>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Satzglied</th>
+              <th>Deine Lösung</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
 
-<h2 id="result"></h2>
+    <section class="card explanation" id="explanationCard" hidden>
+      <h2>Erklärung</h2>
+      <p id="explanationText"></p>
+    </section>
+  </main>
 
-<script src="generator.js"></script>
-<script src="app.js"></script>
-
+  <script src="./app.js"></script>
 </body>
 </html>
