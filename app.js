@@ -1,60 +1,81 @@
 const labels=["S","P","AO","DO","GO","k"];
 
-let progress=JSON.parse(localStorage.getItem("satz_progress"))||{score:0,level:1};
+let progress=JSON.parse(localStorage.getItem("satz_progress_v2"))||{
+score:0,
+level:1,
+attempts:0
+};
 
 function save(){
-localStorage.setItem("satz_progress",JSON.stringify(progress));
+localStorage.setItem("satz_progress_v2",JSON.stringify(progress));
 }
 
-function newExercise(){
-if(progress.score>10) progress.level=2;
-if(progress.score>25) progress.level=3;
-if(progress.score>45) progress.level=4;
+function autoLevel(){
+if(progress.score>15) progress.level=2;
+if(progress.score>40) progress.level=3;
+if(progress.score>80) progress.level=4;
+}
 
-document.getElementById("levelBox").innerHTML="Level: "+progress.level;
+function render(){
+
+autoLevel();
+
+document.getElementById("status").innerHTML=
+`Level: ${progress.level} | Punkte: ${progress.score}`;
 
 window.current=generateSentence(progress.level);
 
 let html='<div class="box">';
+
 current.forEach((p,i)=>{
 html+=`
 <div>
-${p[0]}
-<select id="s${i}">
-<option></option>
+<b>${p[0]}</b>
+<br>
+<select id="sel${i}">
+<option value="">-- wählen --</option>
 ${labels.map(l=>`<option>${l}</option>`).join("")}
 </select>
-<div id="fb${i}"></div>
-</div>`;
+<div id="fb${i}" class="explain"></div>
+</div><br>`;
 });
+
 html+='</div>';
 
 document.getElementById("exercise").innerHTML=html;
+document.getElementById("result").innerHTML="";
 }
 
 function check(){
+
 let correct=0;
+
 current.forEach((p,i)=>{
-let val=document.getElementById("s"+i).value;
+
+let val=document.getElementById("sel"+i).value;
 let fb=document.getElementById("fb"+i);
+
 if(val===p[1]){
 correct++;
-fb.innerHTML="✔ richtig";
+fb.innerHTML="✔ Richtig — "+p[2];
 fb.className="correct";
 }else{
-fb.innerHTML="✘ "+p[2];
+fb.innerHTML="✘ Falsch — "+p[2];
 fb.className="wrong";
 }
+
 });
+
 progress.score+=correct;
+progress.attempts++;
 save();
-sendToTeacher();
-newExercise();
+
+document.getElementById("result").innerHTML=
+`Ergebnis: ${correct} / ${current.length} richtig`;
 }
 
-function sendToTeacher(){
-let data={time:Date.now(),score:progress.score,level:progress.level};
-localStorage.setItem("live_"+Date.now(),JSON.stringify(data));
+function nextExercise(){
+render();
 }
 
-newExercise();
+render();

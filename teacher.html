@@ -5,23 +5,32 @@
 <title>Lehrer Dashboard</title>
 </head>
 <body>
-<h1>Klassenübersicht</h1>
-<div id="stats"></div>
+
+<h1>Lehrer Dashboard – Satzglieder Trainer</h1>
+
+<div id="data"></div>
+
 <script>
+
 function update(){
-let total=0;
-let entries=[];
-for(let key in localStorage){
-if(key.startsWith("live_")){
-entries.push(JSON.parse(localStorage[key]));
+
+let p=JSON.parse(localStorage.getItem("satz_progress_v2"));
+
+if(!p){
+document.getElementById("data").innerHTML="Keine Daten vorhanden.";
+return;
 }
+
+document.getElementById("data").innerHTML=
+`Aktuelles Level: ${p.level}<br>
+Gesamtpunkte: ${p.score}<br>
+Versuche: ${p.attempts}`;
 }
-entries.sort((a,b)=>b.time-a.time);
-entries.slice(0,10).forEach(e=>{total+=e.score;});
-document.getElementById("stats").innerHTML=
-"Letzte Aktivitäten: "+entries.length+"<br>Gesamtpunkte: "+total;
-}
+
 setInterval(update,2000);
+update();
+
 </script>
+
 </body>
 </html>

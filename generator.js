@@ -1,45 +1,68 @@
 const subjects=[
-"Der Schüler","Die Lehrerin","Ein Kind","Der Hund","Meine Schwester"
+"Der erfahrene Lehrer",
+"Die ehrgeizige Schülerin",
+"Ein überforderter Kandidat",
+"Der überraschte Beobachter"
 ];
 
 const verbs=[
-{v:"liest", type:"AO"},
-{v:"hilft", type:"DO"},
-{v:"gedenkt", type:"GO"},
-{v:"erklärt", type:"AO_DO"}
+{v:"erklärte",type:"AO_DO"},
+{v:"überreichte",type:"AO_DO"},
+{v:"gedachte",type:"GO"},
+{v:"entzog",type:"DO_AO"}
 ];
 
-const ao=["ein Buch","die Aufgabe","einen Brief","den Text"];
-const dat=["dem Freund","den Kindern","der Lehrerin"];
-const gen=["seines Vaters","ihrer Freundin","des Lehrers"];
+const ao=[
+"die komplexe Aufgabe",
+"einen ausführlichen Bericht",
+"das schwierige Problem"
+];
 
-function random(arr){
-return arr[Math.floor(Math.random()*arr.length)];
-}
+const dat=[
+"den nervösen Schülern",
+"seiner Kollegin",
+"dem skeptischen Publikum"
+];
+
+const gen=[
+"seines verstorbenen Mentors",
+"ihrer früheren Lehrerin"
+];
+
+const adverbials=[
+"nach der langen Diskussion",
+"mit grosser Geduld",
+"im überfüllten Klassenzimmer"
+];
+
+function random(a){return a[Math.floor(Math.random()*a.length)];}
 
 function generateSentence(level){
-let s=random(subjects);
-let v=random(verbs);
+
 let parts=[];
 
-parts.push([s,"S","Nominalgruppe im Nominativ → Subjekt."]);
+let s=random(subjects);
+let v=random(verbs);
+
+parts.push([s,"S","Nominalgruppe im Nominativ → Subjekt (Wer handelt?)."]);
 parts.push([v.v,"P","Verbaler Teil → Prädikat."]);
 
-if(v.type==="AO"){
-parts.push([random(ao),"AO","Nominalgruppe im Akkusativ → Akkusativobjekt."]);
+if(v.type==="AO_DO"||v.type==="DO_AO"){
+parts.push([random(dat),"DO","Nominalgruppe im Dativ → Wem wird etwas gegeben?" ]);
+parts.push([random(ao),"AO","Nominalgruppe im Akkusativ → Was wird gegeben?" ]);
 }
-if(v.type==="DO"){
-parts.push([random(dat),"DO","Nominalgruppe im Dativ → Dativobjekt."]);
-}
+
 if(v.type==="GO"){
-parts.push([random(gen),"GO","Verb verlangt Genitiv → Genitivobjekt."]);
+parts.push([random(gen),"GO","Verb verlangt Genitiv → Genitivobjekt." ]);
 }
-if(v.type==="AO_DO"){
-parts.push([random(dat),"DO","Nominalgruppe im Dativ."]);
-parts.push([random(ao),"AO","Nominalgruppe im Akkusativ."]);
+
+if(level>=2){
+parts.push([random(adverbials),"k","Adverbiale Bestimmung → keines von diesen." ]);
 }
-if(level>2){
-parts.push(["im Garten","k","Ortsangabe → keines von diesen."]);
+
+if(level>=3){
+parts.push(["sehr sorgfältig","k","Adverbiale der Art und Weise." ]);
 }
+
 return parts;
 }

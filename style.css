@@ -1,16 +1,19 @@
 body{
 font-family:Arial;
-max-width:900px;
+max-width:950px;
 margin:auto;
 padding:30px;
 background:#f4f6f7;
 }
+
 .box{
 background:white;
 padding:20px;
 margin:20px 0;
 border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
+box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
-.correct{color:green;}
-.wrong{color:#c0392b;}
+
+.correct{color:green;font-weight:bold;}
+.wrong{color:#c0392b;font-weight:bold;}
+.explain{font-size:14px;margin-top:4px;color:#444;}
